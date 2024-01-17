@@ -2,6 +2,7 @@ package practice.board.repository.member;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,7 +14,11 @@ import practice.board.domain.member.Grade;
 import practice.board.domain.member.Member;
 
 import javax.sql.DataSource;
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -53,8 +58,16 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Member findMember(Long id) {
-        return null;
+    public Optional<Member> findMember(String userId) {
+        Map<String, String> param = Map.of("userId", userId);
+        String sql = "select * from member where user_id=:userId";
+
+        try {
+            Member member = template.queryForObject(sql, param, getMemberRowMapper());
+            return Optional.of(member);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     private static RowMapper<Member> getMemberRowMapper() {

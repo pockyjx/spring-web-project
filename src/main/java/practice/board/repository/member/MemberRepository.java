@@ -3,6 +3,7 @@ package practice.board.repository.member;
 import practice.board.domain.member.Member;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberRepository {
 
@@ -16,6 +17,6 @@ public interface MemberRepository {
     List<Member> memberList();
 
     // 회원 조회 (id)
-    Member findMember(Long id);
+    Optional<Member> findMember(String userId);
 
 }

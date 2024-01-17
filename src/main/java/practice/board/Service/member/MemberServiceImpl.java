@@ -6,6 +6,7 @@ import practice.board.domain.member.Member;
 import practice.board.repository.member.MemberRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,5 +22,10 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public List<Member> memberList() {
         return memberRepository.memberList();
+    }
+
+    @Override
+    public Optional<Member> findMember(String userId) {
+        return memberRepository.findMember(userId);
     }
 }

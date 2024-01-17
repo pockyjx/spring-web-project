@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1 th:text="|${member.userName} 정보|"></h1>
+<table border="1">
+    <tr>
+        <th>번호</th>
+        <th>id</th>
+        <th>이름</th>
+        <th>이메일</th>
+        <th>등급</th>
+    </tr>
+
+    <tr>
+        <td th:text="${member.id}">번호</td>
+        <td th:text="${member.userId}">id</td>
+        <td th:text="${member.userName}">이름></td>
+        <td th:text="${member.email}">이메일</td>
+        <td th:text="${member.grade}">등급</td>
+    </tr>
+</table>
+
+<hr>
+
+<a th:href="@{/}">홈 화면으로</a>
+
+</body>
+</html>

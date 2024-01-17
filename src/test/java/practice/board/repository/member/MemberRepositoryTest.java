@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import practice.board.domain.member.Grade;
 import practice.board.domain.member.Member;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -38,6 +40,16 @@ class MemberRepositoryTest {
 
     @Test
     void memberList() {
+        Member member1 = new Member("test1", "test1234!", "tester", "test1@gmail.com");
+        Member member2 = new Member("test2", "test1234!", "tester", "test2@gmail.com");
+
+        memberRepository.addMember(member1);
+        memberRepository.addMember(member2);
+
+        String userId = "test1";
+        Member member = memberRepository.findMember(userId).get();
+
+        assertThat(member.getUserId()).isEqualTo(member1.getUserId());
     }
 
     @Test

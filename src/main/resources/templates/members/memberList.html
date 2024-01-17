@@ -17,9 +17,9 @@
         </tr>
 
         <tr th:each="member : ${members}">
-            <td th:text="${member.id}">번호</td>
-            <td th:text="${member.userId}">id</td>
-            <td th:text="${member.userName}">이름</td>
+            <td><a th:href="@{/members/{userId}(userId=${member.userId})}" th:text="${member.userId}">번호</a></td>
+            <td><a th:href="@{/members/{userId}(userId=${member.userId})}" th:text="${member.userId}">id</a></td>
+            <td><a th:href="@{/members/{userId}(userId=${member.userId})}" th:text="${member.userId}">이름</a></td>
             <td th:text="${member.email}">이메일</td>
             <td th:text="${member.grade}">등급</td>
         </tr>

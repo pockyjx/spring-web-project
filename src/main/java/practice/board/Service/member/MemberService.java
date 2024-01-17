@@ -3,9 +3,12 @@ package practice.board.Service.member;
 import practice.board.domain.member.Member;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberService {
     Member saveMember(Member member);
 
     List<Member> memberList();
+
+    Optional<Member> findMember(String userId);
 }
