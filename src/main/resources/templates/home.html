@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+
+    <h1>홈 화면</h1>
+
+    <div th:if="${param.name}" >
+        <h3 th:text="|${param.name}님 환영합니다!|"></h3>
+        <hr>
+    </div>
+
+        <button>로그인</button>
+        <button th:onclick="|location.href='@{/members/add}'|">회원가입</button>
+
+</body>
+</html>
