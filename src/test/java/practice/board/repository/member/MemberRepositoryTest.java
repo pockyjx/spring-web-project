@@ -28,6 +28,12 @@ class MemberRepositoryTest {
 
     @Test
     void updateMember() {
+        Member member1 = new Member("test1", "test1234!", "tester", "test1@gmail.com");
+        Member member2 = new Member("test2", "test1234!", "tester", "test2@gmail.com");
+        memberRepository.addMember(member1);
+        memberRepository.addMember(member2);
+
+        assertThat(memberRepository.memberList().size()).isEqualTo(2);
     }
 
     @Test

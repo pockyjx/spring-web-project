@@ -3,6 +3,7 @@ package practice.board.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,11 @@ public class MemberController {
         Member saveMember = service.saveMember(member);
         redirectAttributes.addAttribute("name", saveMember.getUserName());
         return "redirect:/";
+    }
 
+    @GetMapping
+    String memberList(Model model) {
+        model.addAttribute("members", service.memberList());
+        return "members/memberList";
     }
 }

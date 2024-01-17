@@ -2,6 +2,9 @@ package practice.board.repository.member;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -44,11 +47,17 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
 
     @Override
     public List<Member> memberList() {
-        return null;
+        String sql = "select * from member";
+        List<Member> memberList = template.query(sql, getMemberRowMapper());
+        return memberList;
     }
 
     @Override
     public Member findMember(Long id) {
         return null;
+    }
+
+    private static RowMapper<Member> getMemberRowMapper() {
+        return BeanPropertyRowMapper.newInstance(Member.class);
     }
 }
