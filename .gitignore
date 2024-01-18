@@ -223,4 +223,4 @@ gradle-app.setting
 application-db.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,windows,java,gradle
-/src/test/resources/application.properties
+

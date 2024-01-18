@@ -12,8 +12,10 @@ import practice.board.Service.member.MemberServiceImpl;
 import practice.board.domain.member.Grade;
 import practice.board.domain.member.Member;
 import practice.board.repository.member.MemberSearchDTO;
+import practice.board.repository.member.MemberUpdateDTO;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @Slf4j
 @Controller
@@ -58,5 +60,28 @@ public class MemberController {
         Member member = service.findMember(userId).get();
         model.addAttribute("member", member);
         return "members/memberInfo";
+    }
+
+    @GetMapping("/update/{userId}")
+    String updateMemberForm(@PathVariable("userId") String userId, Model model) {
+
+        Member member = service.findMember(userId).get();
+        model.addAttribute("member", member);
+        return "members/updateMemberForm";
+    }
+
+    @PostMapping("/update/{userId}")
+    String updateMember(@PathVariable("userId") String userId,
+                        @Validated @ModelAttribute("member") MemberUpdateDTO memberUpdate,
+                        BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()) {
+            log.info("error={}", bindingResult.getAllErrors());
+
+            return "members/updateMemberForm";
+        }
+
+        service.updateMember(userId, memberUpdate);
+        return "redirect:/members/{userId}";
     }
 }

@@ -11,7 +11,7 @@ public interface MemberRepository {
     Member addMember(Member member);
 
     // 회원 수정
-    void updateMember(Long id, MemberUpdateDTO updateDTO);
+    void updateMember(String userId, MemberUpdateDTO updateDTO);
 
     // 회원 목록
     List<Member> memberList(MemberSearchDTO memberSearch);

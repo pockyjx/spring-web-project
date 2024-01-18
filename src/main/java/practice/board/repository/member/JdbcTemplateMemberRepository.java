@@ -23,7 +23,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
-@Repository
+// @Repository
 public class JdbcTemplateMemberRepository implements MemberRepository {
 
     private final NamedParameterJdbcTemplate template;
@@ -49,7 +49,7 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void updateMember(Long id, MemberUpdateDTO updateDTO) {
+    public void updateMember(String userId, MemberUpdateDTO updateDTO) {
     }
 
     @Override

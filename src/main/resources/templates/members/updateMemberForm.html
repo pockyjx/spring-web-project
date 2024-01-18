@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 수정</title>
+</head>
+
+<style>
+    .container {
+        max-width: 560px;
+    }
+
+    .field-error {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+</style>
+
+<body>
+
+<h1>회원 정보 수정</h1>
+<form th:action th:method="POST" th:object="${member}">
+
+    <label for="userName">이름 : </label>
+    <input type="text" th:field="*{userName}">
+    <div th:errors="*{userName}" class="field-error"></div>
+    <br>
+
+    <label for="password">비밀번호 : </label>
+    <input type="password" th:field="*{password}" placeholder="8자 이상">
+    <div th:errors="*{password}" class="field-error"></div><br>
+
+    <label for="email">이메일 : </label>
+    <input type="email" th:field="*{email}"> <br>
+
+    <br>
+
+    <input type="submit" value="수정">
+    <button th:href="@{/member/{userId}(userId=*{userId})}">취소</button>
+
+</form>
+
+</body>
+</html>
