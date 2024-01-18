@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import practice.board.domain.member.Member;
 import practice.board.repository.member.MemberRepository;
+import practice.board.repository.member.MemberSearchDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +21,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public List<Member> memberList() {
-        return memberRepository.memberList();
+    public List<Member> memberList(MemberSearchDTO memberSearch) {
+        return memberRepository.memberList(memberSearch);
     }
 
     @Override

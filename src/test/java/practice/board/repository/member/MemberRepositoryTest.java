@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import practice.board.domain.member.Grade;
 import practice.board.domain.member.Member;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,16 +31,27 @@ class MemberRepositoryTest {
 
     @Test
     void updateMember() {
-        Member member1 = new Member("test1", "test1234!", "tester", "test1@gmail.com");
-        Member member2 = new Member("test2", "test1234!", "tester", "test2@gmail.com");
-        memberRepository.addMember(member1);
-        memberRepository.addMember(member2);
-
-        assertThat(memberRepository.memberList().size()).isEqualTo(2);
     }
 
     @Test
     void memberList() {
+        Member member1 = new Member("test1", "test1234!", "tester1", "test1@gmail.com");
+        Member member2 = new Member("test2", "test1234!", "tester2", "test2@gmail.com");
+        Member member3 = new Member("abcde", "test1234!", "테스터", "test2@gmail.com");
+
+        memberRepository.addMember(member1);
+        memberRepository.addMember(member2);
+        memberRepository.addMember(member3);
+
+        test(null, null, null, member1, member2, member3);
+        test("test", null, null, member1, member2);
+        test(null, "tester", null, member1, member2);
+        test(null, null, Grade.ADMIN);
+        test("test", "tester2", null, member2);
+    }
+
+    @Test
+    void findMember() {
         Member member1 = new Member("test1", "test1234!", "tester", "test1@gmail.com");
         Member member2 = new Member("test2", "test1234!", "tester", "test2@gmail.com");
 
@@ -52,7 +64,8 @@ class MemberRepositoryTest {
         assertThat(member.getUserId()).isEqualTo(member1.getUserId());
     }
 
-    @Test
-    void findMember() {
+    void test(String userId, String userName, Grade grade, Member... members) {
+        List<Member> result = memberRepository.memberList(new MemberSearchDTO(userId, userName, grade));
+        assertThat(result).containsExactly(members);
     }
 }

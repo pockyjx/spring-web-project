@@ -14,7 +14,7 @@ public interface MemberRepository {
     void updateMember(Long id, MemberUpdateDTO updateDTO);
 
     // 회원 목록
-    List<Member> memberList();
+    List<Member> memberList(MemberSearchDTO memberSearch);
 
     // 회원 조회 (id)
     Optional<Member> findMember(String userId);

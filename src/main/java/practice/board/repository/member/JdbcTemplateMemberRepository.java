@@ -7,9 +7,11 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 import practice.board.domain.member.Grade;
 import practice.board.domain.member.Member;
 
@@ -51,10 +53,42 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
     }
 
     @Override
-    public List<Member> memberList() {
+    public List<Member> memberList(MemberSearchDTO memberSearch) {
+
+        String userId = memberSearch.getUserId();
+        String userName = memberSearch.getUserName();
+        // ENUM을 SQL에 넘기려면 객체가 아닌, 문자열로 변환해서 넘겨줘야 함! (인코딩 관련 에러)
+        String grade = (memberSearch.getGrade() != null) ? memberSearch.getGrade().name() : "";
+
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("userId", userId)
+                .addValue("userName", userName)
+                .addValue("grade", grade);
+
         String sql = "select * from member";
-        List<Member> memberList = template.query(sql, getMemberRowMapper());
-        return memberList;
+        if(StringUtils.hasText(userId) || StringUtils.hasText(userName) || StringUtils.hasText(grade)) {
+            sql += " where";
+        }
+        boolean andFlag = false;
+
+        if (StringUtils.hasText(userId)) {
+            sql += " user_id like concat('%',:userId,'%')";
+            andFlag = true;
+        }
+
+        if (StringUtils.hasText(userName)) {
+            if (andFlag) sql += " and";
+            else andFlag = true;
+
+            sql += " user_name like concat('%',:userName,'%')";
+        }
+
+        if(StringUtils.hasText(grade)) {
+            if (andFlag) sql += " and";
+            sql += " grade = :grade";
+        }
+
+        return template.query(sql, param, getMemberRowMapper());
     }
 
     @Override

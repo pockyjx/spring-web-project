@@ -7,6 +7,32 @@
 <body>
 
     <h1>회원 목록</h1>
+
+    <fieldset>
+    <legend>조회</legend>
+        <form th:object="${memberSearch}" th:action>
+            <label for="userId">아이디 : </label>
+            <input type="text" th:field="*{userId}"> <br>
+
+            <label for="userName">이름 : </label>
+            <input type="text" th:field="*{userName}"> <br>
+
+            <select th:field="*{grade}">
+                <option value="">등급</option>
+                <option th:each="grade : ${grades}"
+                        th:value="${grade.name()}"
+                        th:text="${grade.getDescription()}">등급</option>
+            </select>
+
+            <hr>
+
+            <input type="submit" value="조회">
+
+        </form>
+    </fieldset>
+
+    <hr>
+
     <table border="1">
         <tr>
             <th>번호</th>

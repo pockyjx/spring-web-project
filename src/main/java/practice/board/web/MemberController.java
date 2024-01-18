@@ -9,7 +9,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import practice.board.Service.member.MemberServiceImpl;
+import practice.board.domain.member.Grade;
 import practice.board.domain.member.Member;
+import practice.board.repository.member.MemberSearchDTO;
 
 import java.util.Optional;
 
@@ -19,6 +21,11 @@ import java.util.Optional;
 @RequestMapping("/members")
 public class MemberController {
     private final MemberServiceImpl service;
+
+    @ModelAttribute("grades")
+    public Grade[] grade() {
+        return Grade.values();
+    }
 
     @GetMapping("/add")
     String addMemberForm(@ModelAttribute("member") Member member) {
@@ -40,13 +47,14 @@ public class MemberController {
     }
 
     @GetMapping
-    String memberList(Model model) {
-        model.addAttribute("members", service.memberList());
+    String memberList(Model model, @ModelAttribute("memberSearch") MemberSearchDTO memberSearch) {
+        model.addAttribute("members", service.memberList(memberSearch));
         return "members/memberList";
     }
 
     @GetMapping("/{userId}")
     String findMember(@PathVariable("userId") String userId, Model model) {
+
         Member member = service.findMember(userId).get();
         model.addAttribute("member", member);
         return "members/memberInfo";
