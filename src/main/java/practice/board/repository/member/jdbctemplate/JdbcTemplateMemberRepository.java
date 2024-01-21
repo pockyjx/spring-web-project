@@ -1,4 +1,4 @@
-package practice.board.repository.member;
+package practice.board.repository.member.jdbctemplate;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import practice.board.domain.member.Grade;
 import practice.board.domain.member.Member;
+import practice.board.repository.member.MemberRepository;
+import practice.board.repository.member.MemberSearchDTO;
+import practice.board.repository.member.MemberUpdateDTO;
 
 import javax.sql.DataSource;
 import javax.swing.text.html.Option;

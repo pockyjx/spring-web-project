@@ -8,17 +8,25 @@
 
     <h1>홈 화면</h1>
 
-    <div th:if="${param.name}" >
-        <h3 th:text="|${param.name}님 환영합니다!|"></h3>
+    <div th:if="${session.LOGIN_MEMBER != null}" >
+        <h3 th:text="|${session.LOGIN_MEMBER.userName}님 환영합니다!|"></h3>
         <hr>
     </div>
 
-        <button>로그인</button>
+    <div th:if="${session.LOGIN_MEMBER == null}">
+        <button th:onclick="|location.href='@{/members/login}'|">로그인</button>
         <button th:onclick="|location.href='@{/members/add}'|">회원가입</button>
+    </div>
 
+    <div th:if="${session.LOGIN_MEMBER}">
+        <button th:onclick="|location.href='@{/members/logout}'|">로그아웃</button>
+    </div>
     <hr>
 
-    <a th:href="@{/members}">회원 목록</a>
+    <a th:if="${session.LOGIN_MEMBER != null and
+                session.LOGIN_MEMBER.getGrade() == T(practice.board.domain.member.Grade).ADMIN}"
+       th:href="@{/members}">회원 목록</a>
+
 
 </body>
 </html>

@@ -16,5 +16,5 @@ public interface MemberService {
 
     Optional<Member> findMember(String userId);
 
-    Member checkPassword(String userId, String password);
+    Member login(String userId, String password);
 }

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import practice.board.Service.member.MemberServiceImpl;
 import practice.board.domain.member.Grade;
 import practice.board.domain.member.Member;
 
@@ -19,8 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 class MemberRepositoryTest {
 
-    @Autowired
-    MemberRepository memberRepository;
+    @Autowired MemberRepository memberRepository;
+    @Autowired MemberServiceImpl service;
 
     @Test
     void addMember() {
@@ -67,5 +68,14 @@ class MemberRepositoryTest {
     void test(String userId, String userName, Grade grade, Member... members) {
         List<Member> result = memberRepository.memberList(new MemberSearchDTO(userId, userName, grade));
         assertThat(result).containsExactly(members);
+    }
+
+    @Test
+    void login() {
+        Member member = new Member("test1", "test1234!", "tester", "test1@gmail.com");
+        memberRepository.addMember(member);
+
+        Member loginMember = service.login("test1", "test1234!");
+        assertThat(member).isEqualTo(loginMember);
     }
 }

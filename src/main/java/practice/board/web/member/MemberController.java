@@ -1,5 +1,7 @@
-package practice.board.web;
+package practice.board.web.member;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import practice.board.Const;
 import practice.board.Service.member.MemberServiceImpl;
 import practice.board.domain.member.Grade;
 import practice.board.domain.member.Member;
@@ -35,8 +38,7 @@ public class MemberController {
     }
 
     @PostMapping("/add")
-    String addMember(@Validated @ModelAttribute Member member, BindingResult bindingResult,
-                     RedirectAttributes redirectAttributes) {
+    String addMember(@Validated @ModelAttribute Member member, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
             log.info("error={}", bindingResult.getAllErrors());
@@ -44,8 +46,7 @@ public class MemberController {
         }
 
         Member saveMember = service.saveMember(member);
-        redirectAttributes.addAttribute("name", saveMember.getUserName());
-        return "redirect:/";
+        return "redirect:/members/login";
     }
 
     @GetMapping
@@ -83,5 +84,33 @@ public class MemberController {
 
         service.updateMember(userId, memberUpdate);
         return "redirect:/members/{userId}";
+    }
+
+    @GetMapping("/login")
+    String loginForm(@ModelAttribute("login") LoginDTO login) {
+        return "members/login";
+    }
+
+    @PostMapping("/login")
+    String login(@Validated @ModelAttribute("login") LoginDTO login, BindingResult bindingResult,
+                 HttpServletRequest req) {
+
+        Member member = service.login(login.getUserId(), login.getPassword());
+        if(member == null) {
+            bindingResult.reject("login", "아이디 혹은 비밀번호가 잘못되었습니다!");
+            return "members/login";
+        }
+
+        HttpSession session = req.getSession();
+        session.setAttribute(Const.LOGIN_SESSION_NAME, member);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    String logout(HttpServletRequest req) {
+        HttpSession session = req.getSession(false);
+        session.invalidate();
+        return "redirect:/";
     }
 }

@@ -39,9 +39,11 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public Member checkPassword(String userId, String password) {
-        Member member = findMember(userId).get();
-        log.info("input password={}, check password={}", password, member.getPassword());
+    public Member login(String userId, String password) {
+        Member member = findMember(userId).orElse(null);
+        log.info("login member={}", member);
+        if(member == null) return null;
+
 
         if(member.getPassword().equals(password)) return member;
         else return null;
