@@ -3,6 +3,7 @@ package practice.board.Service.member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import practice.board.domain.member.Member;
 import practice.board.repository.member.MemberRepository;
 import practice.board.repository.member.MemberSearchDTO;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
 
@@ -43,7 +45,6 @@ public class MemberServiceImpl implements MemberService{
         Member member = findMember(userId).orElse(null);
         log.info("login member={}", member);
         if(member == null) return null;
-
 
         if(member.getPassword().equals(password)) return member;
         else return null;
