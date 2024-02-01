@@ -224,3 +224,4 @@ application-db.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,windows,java,gradle
 
+/src/main/resources/templates/index.html
