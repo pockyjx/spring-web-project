@@ -1,34 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
 
-<h1 th:text="|${member.userName} 정보|"></h1>
-<table border="1">
-    <tr>
-        <th>번호</th>
-        <th>id</th>
-        <th>이름</th>
-        <th>이메일</th>
-        <th>등급</th>
-    </tr>
+<div layout:fragment="content">
+    <div class="card mb-lg-3">
+        <div class="card-body">
+            <div class="mb-lg-4">
+                <h1 th:text="|${member.userName} 님|" class="card-title mr-1 ml-2" style="display: inline"></h1>
+                <span class="btn-primary mr-2 mb-3" th:text="${member.grade}"></span>
+            </div>
 
-    <tr>
-        <td th:text="${member.id}">번호</td>
-        <td th:text="${member.userId}">id</td>
-        <td th:text="${member.userName}">이름></td>
-        <td th:text="${member.email}">이메일</td>
-        <td th:text="${member.grade}">등급</td>
-    </tr>
-</table>
+            <div class="table-responsive mt-lg-3">
+                <table class="table">
+                    <tr>
+                        <th>id</th>
+                        <td th:text="${member.userId}">id</td>
+                    </tr>
 
-<hr>
+                    <tr>
+                        <th>이름</th>
+                        <td th:text="${member.userName}">이름></td>
+                    </tr>
 
-<a th:href="@{/members/update/{userId}(userId=${member.userId})}">정보 수정</a>
-<a th:href="@{/}">홈 화면으로</a>
+                    <tr>
+                        <th>이메일</th>
+                        <td th:text="${member.email}">이메일</td>
+                    </tr>
+                </table>
+            </div>
 
-</body>
+            <hr>
+
+            <div class="text-right mt-lg-3">
+                <button th:onclick="|location.href='@{/members/update/{userId}(userId=${member.userId})}'|"
+                    class="btn btn-outline-secondary btn-icon-text btn">수정</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </html>
