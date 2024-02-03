@@ -16,7 +16,5 @@ public class MemberUpdateDTO {
     private String userId;
     @NotBlank
     private String userName;
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)(?=.*[!~_-]).{8,}$")
-    private String password;
     private String email;
 }

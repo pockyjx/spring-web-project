@@ -28,10 +28,10 @@ public class jpaMemberRepository implements MemberRepository {
 
     @Override
     public void updateMember(String userId, MemberUpdateDTO updateDTO) {
-        Member findMember = em.find(Member.class, userId);
+        Member findMember = em.createQuery("select m from Member m where m.userId = :userId", Member.class)
+                .setParameter("userId", userId).getSingleResult();
 
         findMember.setUserName(updateDTO.getUserName());
-        findMember.setPassword(updateDTO.getPassword());
         findMember.setEmail(updateDTO.getEmail());
     }
 
@@ -88,11 +88,11 @@ public class jpaMemberRepository implements MemberRepository {
     @Override
     public Optional<Member> findMember(String userId) {
 
-        String jpql = "select m from Member m where m.userId = :userId";
-        TypedQuery<Member> query = em.createQuery(jpql, Member.class);
-        query.setParameter("userId", userId);
-
-        return Optional.ofNullable(query.getSingleResult());
+        List<Member> members = em.createQuery("select m from Member m where m.userId = :userId ", Member.class)
+                .setParameter("userId", userId)
+                .getResultList();
+        if(!members.isEmpty()) return Optional.of(members.get(0));
+        return Optional.empty();
 
         // userId가 기본키가 아니기 때문에 find 사용 불가 ㅠㅠ
         // return Optional.ofNullable(em.find(Member.class, userId));
