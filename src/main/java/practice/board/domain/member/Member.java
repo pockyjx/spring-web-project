@@ -3,17 +3,20 @@ package practice.board.domain.member;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import practice.board.domain.board.Post;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
     @Id @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
 
     @Pattern(regexp = "^[a-z0-9]{5,15}$")
@@ -27,8 +30,8 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-    public Member() {
-    }
+    @OneToMany(mappedBy = "member")
+    private List<Post> posts = new ArrayList<>();
 
     public Member(String userId, String password, String userName, String email) {
         this.userId = userId;

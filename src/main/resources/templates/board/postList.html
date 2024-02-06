@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+
+<div layout:fragment="content">
+    <div class="card mb-lg-3">
+        <div class="card-body">
+            <div class="mb-lg-4">
+                <h1 th:text="|게시글 목록|" class="card-title mr-1 ml-2" style="display: inline"></h1>
+            </div>
+
+            <div class="table-responsive mt-lg-3">
+                <table class="table">
+                    <tr>
+                        <th>번호</th>
+                        <th>카테고리</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                    </tr>
+
+                    <tr th:each="post : ${page}">
+                        <td th:text="${post.id}">번호</td>
+                        <td th:text="${post.categoryName}">카테고리</td>
+                        <td th:text="${post.title}">제목</td>
+                        <td th:text="${post.userName}">작성자</td>
+                        <td th:text="${{post.createDate}}">작성일</td>
+                    </tr>
+                </table>
+            </div>
+
+            <hr>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center pagination-sm">
+
+            <li class="page-item" th:if="${pm.prev}">
+                <a class="page-link" th:href="@{/boards(page=0)}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <li class="page-item" th:if="${pm.prev}">
+                <a class="page-link" th:href="@{/boards(page=${pm.startPage}-2)}" aria-label="Previous">
+                    <span aria-hidden="true">&lsaquo;</span>
+                </a>
+            </li>
+
+            <li th:class="page-item" th:each="p : ${#numbers.sequence(pm.startPage, pm.getEndPage())}"
+                th:classappend="(${pm.nowPage == p})? 'active' : ''">
+                <a class="page-link"
+                   th:href="@{/boards(page=${p}-1)}"
+                   th:text="${p}"></a>
+            </li>
+
+            <li class="page-item" th:if="${pm.next && pm.endPage > 0}">
+                <a class="page-link" th:href="@{/boards(page=${pm.endPage})}" aria-label="Next">
+                    <span aria-hidden="true">&rsaquo;</span>
+                </a>
+            </li>
+
+            <li class="page-item" th:if="${pm.next && pm.endPage > 0}">
+                <a class="page-link" th:href="@{/boards(page=${page.getTotalPages()}-1)}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+</div>
+
+</html>

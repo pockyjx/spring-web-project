@@ -74,7 +74,7 @@ public class MemberController {
     @PostMapping("/update/{userId}")
     String updateMember(@PathVariable("userId") String userId,
                         @Validated @ModelAttribute("member") MemberUpdateDTO memberUpdate,
-                        BindingResult bindingResult) {
+                        BindingResult bindingResult, HttpServletRequest req) {
 
         if(bindingResult.hasErrors()) {
             log.info("error={}", bindingResult.getAllErrors());
@@ -83,6 +83,10 @@ public class MemberController {
         }
 
         service.updateMember(userId, memberUpdate);
+        Member member = service.findMember(userId).get();
+
+        HttpSession session = req.getSession();
+        session.setAttribute(Const.LOGIN_SESSION_NAME, member);
         return "redirect:/members/{userId}";
     }
 
