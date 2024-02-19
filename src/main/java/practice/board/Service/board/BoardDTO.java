@@ -14,7 +14,7 @@ public class BoardDTO {
     private String title;
     private String userName;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createDate;
 
     public BoardDTO(Post post) {

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.QueryHints;
 import practice.board.domain.board.Post;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
+
     @Query("select p from Post p join fetch p.category c join fetch p.member m")
     Page<Post> findBoard(Pageable pageable);
 }

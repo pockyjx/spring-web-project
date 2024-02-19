@@ -1,20 +1,7 @@
 package practice.board.repository.board;
 
-import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import practice.board.domain.board.Category;
 
-@Repository
-@RequiredArgsConstructor
-public class CategoryRepository {
-    private final EntityManager em;
-
-    public void addCategory(Category category) {
-        em.persist(category);
-    }
-
-    public void removeCategory(Category category) {
-        em.remove(category);
-    }
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 }
