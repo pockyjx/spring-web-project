@@ -5,8 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import practice.board.Service.board.PostService;
+import practice.board.domain.API.User;
 import practice.board.domain.board.Category;
 import practice.board.domain.member.Member;
+import practice.board.repository.API.UserRepository;
 import practice.board.repository.board.CategoryRepository;
 import practice.board.repository.member.MemberRepository;
 
@@ -18,6 +20,7 @@ public class InitDB {
     @PostConstruct
     void init() {
         initService.initDB();
+        initService.initDB_api();
     }
 
     @Component
@@ -27,6 +30,8 @@ public class InitDB {
         private final MemberRepository memberRepository;
         private final CategoryRepository categoryRepository;
         private final PostService postService;
+
+        private final UserRepository userRepository;
 
         public void initDB() {
 
@@ -64,6 +69,14 @@ public class InitDB {
             postService.save("제목10", "내용10", "pockyjx", 2L);
         }
 
+
+        public void initDB_api() {
+            userRepository.save(new User("user1", 10, "user1"));
+            userRepository.save(new User("user2", 20, "user2"));
+            userRepository.save(new User("user3", 30, "user3"));
+            userRepository.save(new User("user4", 40, "user4"));
+            userRepository.save(new User("user5", 10, "user5"));
+        }
     }
 
 }
